@@ -5,8 +5,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        accent: "#374151", // Dark gray (replacing dark green)
-        "accent-light": "#6B7280", // Light gray
+        accent: "#D97706", // Dark orange
+        "accent-light": "#F97316", // Light orange
       },
       fontFamily: {
         sans: ["system-ui", "sans-serif"],

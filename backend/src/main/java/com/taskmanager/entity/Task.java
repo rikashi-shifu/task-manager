@@ -27,7 +27,8 @@ public class Task {
     private TaskStatus status;
 
     @Column(nullable = false)
-    private String category;
+    @Enumerated(EnumType.STRING)
+    private TaskCategory category;
 
     @Column(nullable = false)
     private Long userId;
@@ -37,6 +38,9 @@ public class Task {
 
     @Column(name = "updated_at")
     private Long updatedAt;
+
+    @Column(name = "due_date")
+    private Long dueDate;
 
     @PrePersist
     protected void onCreate() {
@@ -50,6 +54,8 @@ public class Task {
     }
 
     public enum TaskStatus {
-        TODO, COMPLETED
+        PENDING,        // Task waiting to be started
+        IN_PROGRESS,    // Task currently being worked on
+        COMPLETED       // Task is done
     }
 }

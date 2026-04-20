@@ -13,4 +13,5 @@ public class TaskRequest {
     private String description;
     private TaskStatus status;
     private String category;
+    private Long dueDate;
 }

@@ -4,6 +4,7 @@ import com.taskmanager.dto.TaskRequest;
 import com.taskmanager.dto.TaskResponse;
 import com.taskmanager.entity.Task;
 import com.taskmanager.entity.Task.TaskStatus;
+import com.taskmanager.entity.TaskCategory;
 import com.taskmanager.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,9 @@ public class TaskService {
         Task task = new Task();
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());
-        task.setStatus(request.getStatus() != null ? request.getStatus() : TaskStatus.TODO);
-        task.setCategory(request.getCategory());
+        task.setStatus(request.getStatus() != null ? request.getStatus() : TaskStatus.PENDING);
+        task.setCategory(TaskCategory.fromString(request.getCategory()));
+        task.setDueDate(request.getDueDate());
         task.setUserId(userId);
 
         Task savedTask = taskRepository.save(task);
@@ -54,7 +56,8 @@ public class TaskService {
     }
 
     public List<TaskResponse> getUserTasksByCategory(Long userId, String category) {
-        return taskRepository.findByUserIdAndCategory(userId, category).stream()
+        TaskCategory taskCategory = TaskCategory.fromString(category);
+        return taskRepository.findByUserIdAndCategory(userId, taskCategory).stream()
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());
     }
@@ -83,8 +86,10 @@ public class TaskService {
             task.setStatus(request.getStatus());
         }
         if (request.getCategory() != null) {
-            task.setCategory(request.getCategory());
+            task.setCategory(TaskCategory.fromString(request.getCategory()));
         }
+        // Allow setting dueDate to null or a specific value
+        task.setDueDate(request.getDueDate());
 
         Task updatedTask = taskRepository.save(task);
         return convertToResponse(updatedTask);
@@ -107,9 +112,10 @@ public class TaskService {
                 task.getTitle(),
                 task.getDescription(),
                 task.getStatus(),
-                task.getCategory(),
+                task.getCategory().getDisplayName(),
                 task.getCreatedAt(),
-                task.getUpdatedAt()
+                task.getUpdatedAt(),
+                task.getDueDate()
         );
     }
 }

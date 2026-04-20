@@ -1,4 +1,9 @@
-export function TaskFilters({ filters, setFilters, categories }) {
+import { PREDEFINED_CATEGORIES } from "../constants/categories";
+import { useTheme } from "../context/ThemeContext";
+
+export function TaskFilters({ filters, setFilters }) {
+  const { theme } = useTheme();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
@@ -14,7 +19,9 @@ export function TaskFilters({ filters, setFilters, categories }) {
     <div className="card p-4 mb-6">
       <div className="flex flex-col sm:flex-row gap-3 items-end">
         <div className="flex-1">
-          <label className="block text-xs font-semibold text-gray-300 mb-2">
+          <label
+            className={`block text-xs font-semibold mb-2 transition-colors ${theme === "dark" ? "text-neutral-300" : "text-neutral-700"}`}
+          >
             Search
           </label>
           <input
@@ -23,38 +30,54 @@ export function TaskFilters({ filters, setFilters, categories }) {
             value={filters.search}
             onChange={handleChange}
             placeholder="Search tasks..."
-            className="w-full px-3 py-2 bg-gray-950 border border-gray-800 rounded-md text-gray-50 placeholder-gray-600 text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            className={`w-full px-3 py-2 border rounded-md text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+              theme === "dark"
+                ? "bg-neutral-950 border-neutral-800 text-neutral-50 placeholder-neutral-600"
+                : "bg-white border-neutral-300 text-neutral-900 placeholder-neutral-400"
+            }`}
           />
         </div>
 
         <div className="flex-1">
-          <label className="block text-xs font-semibold text-gray-300 mb-2">
+          <label
+            className={`block text-xs font-semibold mb-2 transition-colors ${theme === "dark" ? "text-neutral-300" : "text-neutral-700"}`}
+          >
             Status
           </label>
           <select
             name="status"
             value={filters.status}
             onChange={handleChange}
-            className="w-full px-3 py-2 bg-gray-950 border border-gray-800 rounded-md text-gray-50 text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            className={`w-full px-3 py-2 border rounded-md text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+              theme === "dark"
+                ? "bg-neutral-950 border-neutral-800 text-neutral-50"
+                : "bg-white border-neutral-300 text-neutral-900"
+            }`}
           >
-            <option value="">All</option>
-            <option value="TODO">TODO</option>
-            <option value="COMPLETED">Done</option>
+            <option value="">All Statuses</option>
+            <option value="PENDING">Pending</option>
+            <option value="IN_PROGRESS">In Progress</option>
           </select>
         </div>
 
         <div className="flex-1">
-          <label className="block text-xs font-semibold text-gray-300 mb-2">
+          <label
+            className={`block text-xs font-semibold mb-2 transition-colors ${theme === "dark" ? "text-neutral-300" : "text-neutral-700"}`}
+          >
             Category
           </label>
           <select
             name="category"
             value={filters.category}
             onChange={handleChange}
-            className="w-full px-3 py-2 bg-gray-950 border border-gray-800 rounded-md text-gray-50 text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            className={`w-full px-3 py-2 border rounded-md text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+              theme === "dark"
+                ? "bg-neutral-950 border-neutral-800 text-neutral-50"
+                : "bg-white border-neutral-300 text-neutral-900"
+            }`}
           >
             <option value="">All</option>
-            {categories.map((cat) => (
+            {PREDEFINED_CATEGORIES.map((cat) => (
               <option key={cat} value={cat}>
                 {cat}
               </option>

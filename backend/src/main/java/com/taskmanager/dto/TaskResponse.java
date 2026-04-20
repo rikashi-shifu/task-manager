@@ -16,4 +16,5 @@ public class TaskResponse {
     private String category;
     private Long createdAt;
     private Long updatedAt;
+    private Long dueDate;
 }

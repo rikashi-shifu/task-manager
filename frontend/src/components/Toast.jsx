@@ -1,22 +1,42 @@
+import { MdCheckCircle, MdWarning, MdInfo, MdClose } from "react-icons/md";
+
 export function Toast({ toast, onClose }) {
   const bgColor =
     toast.type === "success"
-      ? "bg-gray-800/40 border-gray-700/50 text-gray-300"
+      ? "bg-neutral-900 border-neutral-800"
       : toast.type === "error"
-        ? "bg-gray-800/40 border-gray-700/50 text-gray-300"
-        : "bg-gray-800/40 border-gray-700/50 text-gray-300";
+        ? "bg-neutral-900 border-neutral-800"
+        : "bg-neutral-900 border-neutral-800";
+
+  const textColor =
+    toast.type === "success"
+      ? "text-neutral-300"
+      : toast.type === "error"
+        ? "text-neutral-300"
+        : "text-neutral-300";
+
+  const getIcon = () => {
+    if (toast.type === "success")
+      return <MdCheckCircle className="text-neutral-400" />;
+    if (toast.type === "error")
+      return <MdWarning className="text-neutral-400" />;
+    return <MdInfo className="text-neutral-400" />;
+  };
 
   return (
     <div
       className={`${bgColor} border rounded-lg px-4 py-3 shadow-lg animate-fade-in flex items-center justify-between gap-4`}
       role="alert"
     >
-      <span className="text-sm">{toast.message}</span>
+      <div className="flex items-center gap-3">
+        <div className="text-lg flex-shrink-0">{getIcon()}</div>
+        <span className={`text-sm ${textColor}`}>{toast.message}</span>
+      </div>
       <button
         onClick={() => onClose(toast.id)}
-        className="text-lg opacity-70 hover:opacity-100 transition-opacity flex-shrink-0"
+        className="text-lg opacity-70 hover:opacity-100 transition-opacity flex-shrink-0 text-neutral-400"
       >
-        ×
+        <MdClose />
       </button>
     </div>
   );
