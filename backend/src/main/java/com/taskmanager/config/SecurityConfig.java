@@ -59,17 +59,18 @@ public class SecurityConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        // Build the allowed-origins list, filtering out any blank entries so that
-        // an empty FRONTEND_URL_LOCAL in production does not add a blank origin.
-        List<String> allowedOrigins = Stream.of(frontendUrl, frontendUrlLocal)
-                .filter(url -> url != null && !url.isBlank())
-                .collect(Collectors.toList());
-
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(allowedOrigins);
+        
+        // Explicitly add both the production and local URLs
+        configuration.setAllowedOrigins(List.of(
+            "https://task-manager-frontend-production-1272.up.railway.app",
+            "http://localhost:5173"
+        ));
+        
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With"));
         configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L); // Cache preflight for 1 hour
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
