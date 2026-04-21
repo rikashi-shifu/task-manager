@@ -9,6 +9,7 @@
     "frontend:preview": "cd frontend && npm run preview",
     "backend:run": "cd backend && mvn spring-boot:run",
     "backend:build": "cd backend && mvn clean install",
-    "dev": "echo 'Start backend: npm run backend:run' && echo 'Start frontend: npm run frontend:dev'"
+    "dev": "echo 'Start backend: npm run backend:run' && echo 'Start frontend: npm run frontend:dev'",
+    "start": "cd backend && mvn spring-boot:run"
   }
 }
