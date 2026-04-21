@@ -61,14 +61,15 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         
-        // Explicitly list the allowed origins
+        // Add both versions to be safe against different browser Referer/Origin behaviors
         configuration.setAllowedOrigins(List.of(
             "https://task-manager-frontend-production-1272.up.railway.app",
-            "http://localhost:5173" 
+            "https://task-manager-frontend-production-1272.up.railway.app/",
+            "http://localhost:5173"
         ));
         
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept", "X-Requested-With"));
+        configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
         configuration.setMaxAge(3600L);
 
